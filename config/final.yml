@@ -1,6 +1,6 @@
 ---
 blobstore:
-  provider: s3
+  provider: local
   options:
-    bucket_name: sensu-boshrelease
+    blobstore_path: /opt/sensu
 final_name: sensu

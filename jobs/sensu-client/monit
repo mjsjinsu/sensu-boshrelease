@@ -1,0 +1,5 @@
+check process sensu-client
+  with pidfile /var/vcap/sys/run/sensu-client/sensu-client.pid
+  start program "/var/vcap/jobs/sensu-client/bin/monit_debugger sensu_client_ctl '/var/vcap/jobs/sensu-client/bin/sensu_client_ctl start'"
+  stop program "/var/vcap/jobs/sensu-client/bin/monit_debugger sensu_client_ctl '/var/vcap/jobs/sensu-client/bin/sensu_client_ctl stop'"
+  group vcap

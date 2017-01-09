@@ -1,0 +1,74 @@
+---
+name: sensu-servers
+director_uuid: fb70f16a-4d6f-41f8-bc2e-0181a03dff18
+releases:
+- {name: sensu, version: latest}
+
+stemcells:
+- alias: ubuntu-latest
+  os: ubuntu-trusty
+  version: latest
+
+update:
+  canaries: 1
+  max_in_flight: 2
+  serial: false
+  canary_watch_time: 30000 - 600000
+  update_watch_time: 30000 - 600000
+
+instance_groups:
+- name: sensu-vm
+  instances: 1
+  azs: [z1]
+  jobs:
+  - name: uchiwa
+    release: sensu
+  - name: redis
+    release: sensu
+  - name: rabbitmq-server
+    release: sensu
+  - name: sensu
+    release: sensu
+  - name: sensu-client
+    release: sensu
+
+  vm_type: default_vm_types
+  stemcell: ubuntu-latest
+  persistent_disk_type: default_disk_types
+  networks:
+  - name: default_networks
+    static_ips:
+    - 10.244.0.100
+
+properties:
+  rabbitmq-server:
+    administrators:
+      broker:
+        password: password
+        username: username
+    plugins:
+    - rabbitmq_management
+    - rabbitmq_mqtt
+    - rabbitmq_stomp
+    static_ips:
+    - 10.244.0.100
+    vhost:
+      name: sensu
+      password: secret
+      username: sensu
+  redis:
+    password: redis
+    port: 6379
+  sensu:
+    api:
+      host: 10.244.0.100
+      port: 4222
+    rabbitmq:
+      host: 10.244.0.100
+      password: secret
+      username: sensu
+      vhost: sensu
+    redis:
+      host: 10.244.0.100
+      password: redis
+      port: 6379

@@ -1,0 +1,41 @@
+---
+name: test01
+director_uuid: fb70f16a-4d6f-41f8-bc2e-0181a03dff18
+releases:
+- {name: sensu, version: latest}
+
+stemcells:
+- alias: ubuntu-latest
+  os: ubuntu-trusty
+  version: latest
+
+update:
+  canaries: 1
+  max_in_flight: 2
+  serial: false
+  canary_watch_time: 30000 - 600000
+  update_watch_time: 30000 - 600000
+
+instance_groups:
+- name: test-vm
+  instances: 1
+  azs: [z1]
+  jobs:
+  - name: sensu-client
+    release: sensu
+
+  vm_type: default_vm_types
+  stemcell: ubuntu-latest
+  persistent_disk_type: default_disk_types
+  networks:
+  - name: default_networks
+    static_ips:
+    - 10.244.0.102
+
+properties:
+  sensu:
+    rabbitmq:
+      host: 10.244.0.100
+      password: secret
+      username: sensu
+      vhost: sensu

@@ -15,5 +15,28 @@
     "host": "<%= spec.networks.send(spec.networks.methods(false).first).ip %>",
     "bind": "0.0.0.0",
     "port": <%= p("sensu.api.port") %>
+  },
+  "checks" : {
+    "vmstat_metrics" : {
+      "type" : "metric",
+      "handlers" : [ "influxdb" ],
+      "command" : "metrics-vmstat.rb",
+      "interval" : 30,
+      "subscribers" : [ "vmstat" ]
+    }
+  },
+  "handlers" : {
+    "influxdb" : {
+      "type" : "pipe",
+      "command" : "metrics-influxdb.rb"
+    }
+  },
+  "influxdb" : {
+    "hosts" :  [ "10.244.0.101" ],
+    "host" : "10.244.0.101",
+    "port" : "8086",
+    "username" : "root",
+    "password" : "root",
+    "database" : "metrics"
   }
 }

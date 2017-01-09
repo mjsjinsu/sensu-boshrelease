@@ -14,7 +14,7 @@ case $1 in
     echo $$ > $PIDFILE
 
     exec chpst -u vcap:vcap sensu-api \
-         -c /var/vcap/jobs/sensu/config/sensu-server.json \
+         -d /var/vcap/jobs/sensu/config/ \
          -l $LOG_DIR/$JOB_NAME.log \
          >>$LOG_DIR/$JOB_NAME.log 2>&1
 

@@ -1,0 +1,25 @@
+{
+  "client": {
+    "name": "<%= name %>-<%= index %>",
+    "address": "<%= spec.networks.send(spec.networks.methods(false).first).ip %>",
+    "environment": "development",
+    "subscriptions": [
+      "vmstat"
+    ],
+    "socket": {
+      "bind": "127.0.0.1",
+      "port": 3030
+    }
+  },
+  "rabbitmq": {
+    "host": "<%= p("sensu.rabbitmq.host") %>",
+    "port": 5672,
+    "user": "<%= p("sensu.rabbitmq.username") %>",
+    "password": "<%= p("sensu.rabbitmq.password") %>",
+    "vhost": "/<%= p("sensu.rabbitmq.vhost") %>"
+  },
+  "transport": {
+    "name": "rabbitmq",
+    "reconnect_on_error": true
+  }
+}

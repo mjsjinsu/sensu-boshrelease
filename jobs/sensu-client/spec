@@ -1,15 +1,17 @@
 ---
-name: sensu
-packages:
-- sensu
+name: sensu-client
+
 templates:
-  bin/sensu_server_ctl: bin/sensu_server_ctl
-  bin/sensu_api_ctl: bin/sensu_api_ctl
+  bin/sensu_client_ctl: bin/sensu_client_ctl
   bin/monit_debugger: bin/monit_debugger
-  config/sensu-server.json.erb: config/sensu-server.json
+  config/sensu-client.json.erb: config/sensu-client.json
   data/properties.sh.erb: data/properties.sh
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
+
+packages: 
+- sensu
+
 properties:
   sensu.rabbitmq.host:
     description: "REQUIRED: rabbitmq host"
@@ -19,14 +21,3 @@ properties:
     description: "REQUIRED: rabbitmq username"
   sensu.rabbitmq.password:
     description: "REQUIRED: rabbitmq password"
-
-  sensu.redis.host:
-    description: "REQUIRED: redis host"
-  sensu.redis.port:
-    description: "REQUIRED: redis port"
-  sensu.redis.password:
-    description: "REQUIRED: redis password"
-
-  sensu.api.port:
-    description: "api port"
-    default: 4222
